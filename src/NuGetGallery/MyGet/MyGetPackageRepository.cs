@@ -31,6 +31,7 @@ namespace NuGetGallery.MyGet
 			throw new NotSupportedException();
 		}
 
+		private static IList<PackageRegistration> _packageRegistrations = new List<PackageRegistration>();
 		private static IList<Package> _packages;
 
 		public IQueryable<Package> GetAll()
@@ -55,13 +56,19 @@ namespace NuGetGallery.MyGet
 
 			var nupkg = new NugetPackageNupkg(nugetPackage);
 			var package = CreatePackageFromNuGetPackage(packageRegistration, nupkg);
+			packageRegistration.Packages.Add(package);
+			UpdateIsLatest(packageRegistration);
 
 			return package;
 		}
 
 		private PackageRegistration CreateOrGetPackageRegistration(IPackage nugetPackage)
 		{
-			var packageRegistration = new PackageRegistration
+			var packageRegistration = _packageRegistrations.SingleOrDefault(pr => pr.Id == nugetPackage.Id);
+
+			if (packageRegistration == null)
+			{
+				packageRegistration = new PackageRegistration
 				{
 					Id = nugetPackage.Id,
 					DownloadCount = nugetPackage.DownloadCount,
@@ -70,6 +77,9 @@ namespace NuGetGallery.MyGet
 						Username = username
 					}).ToList()
 				};
+
+				_packageRegistrations.Add(packageRegistration);
+			}
 
 			return packageRegistration;
 		}
@@ -114,9 +124,7 @@ namespace NuGetGallery.MyGet
 				Title = nugetPackage.Metadata.Title,
 				User = new User("whyleee"),
 
-				DownloadCount = ((IPackage) nugetPackage.Metadata).DownloadCount,
-				IsLatest = true,
-				IsLatestStable = true
+				DownloadCount = ((IPackage) nugetPackage.Metadata).DownloadCount
 			};
 
 			package.IconUrl = nugetPackage.Metadata.IconUrl.ToEncodedUrlStringOrNull();
@@ -170,6 +178,64 @@ namespace NuGetGallery.MyGet
 			package.FlattenedDependencies = package.Dependencies.Flatten();
 
 			return package;
+		}
+
+		private static void UpdateIsLatest(PackageRegistration packageRegistration)
+		{
+			if (!packageRegistration.Packages.Any())
+			{
+				return;
+			}
+
+			// TODO: improve setting the latest bit; this is horrible. Trigger maybe? 
+			foreach (var pv in packageRegistration.Packages.Where(p => p.IsLatest || p.IsLatestStable))
+			{
+				pv.IsLatest = false;
+				pv.IsLatestStable = false;
+				pv.LastUpdated = DateTime.UtcNow;
+			}
+
+			// If the last listed package was just unlisted, then we won't find another one
+			var latestPackage = FindPackage(packageRegistration.Packages, p => p.Listed);
+
+			if (latestPackage != null)
+			{
+				latestPackage.IsLatest = true;
+				latestPackage.LastUpdated = DateTime.UtcNow;
+
+				if (latestPackage.IsPrerelease)
+				{
+					// If the newest uploaded package is a prerelease package, we need to find an older package that is 
+					// a release version and set it to IsLatest.
+					var latestReleasePackage = FindPackage(packageRegistration.Packages.Where(p => !p.IsPrerelease && p.Listed));
+					if (latestReleasePackage != null)
+					{
+						// We could have no release packages
+						latestReleasePackage.IsLatestStable = true;
+						latestReleasePackage.LastUpdated = DateTime.UtcNow;
+					}
+				}
+				else
+				{
+					// Only release versions are marked as IsLatestStable. 
+					latestPackage.IsLatestStable = true;
+				}
+			}
+		}
+
+		private static Package FindPackage(IEnumerable<Package> packages, Func<Package, bool> predicate = null)
+		{
+			if (predicate != null)
+			{
+				packages = packages.Where(predicate);
+			}
+			SemanticVersion version = packages.Max(p => new SemanticVersion(p.Version));
+
+			if (version == null)
+			{
+				return null;
+			}
+			return packages.First(pv => pv.Version.Equals(version.ToString(), StringComparison.OrdinalIgnoreCase));
 		}
 
 		private static void ValidateNuGetPackageMetadata(IPackageMetadata nugetPackage)
