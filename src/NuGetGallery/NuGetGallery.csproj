@@ -1032,6 +1032,7 @@
     </Compile>
     <Compile Include="Migrations\MigrationsConfiguration.cs" />
     <Compile Include="Migrations\SqlResourceMigration.cs" />
+    <Compile Include="MyGet\MyGetPackageRepository.cs" />
     <Compile Include="PackageCurators\IAutomaticPackageCurator.cs" />
     <Compile Include="PackageCurators\AutomaticPackageCurator.cs" />
     <Compile Include="PackageCurators\TagBasedPackageCurator.cs" />

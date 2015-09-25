@@ -17,6 +17,7 @@ using NuGetGallery.Configuration;
 using NuGetGallery.Diagnostics;
 using NuGetGallery.Infrastructure;
 using NuGetGallery.Infrastructure.Lucene;
+using NuGetGallery.MyGet;
 
 namespace NuGetGallery
 {
@@ -87,7 +88,7 @@ namespace NuGetGallery
                 .As<IEntityRepository<PackageRegistration>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<Package>>()
+            builder.RegisterType<MyGetPackageRepository>()
                 .AsSelf()
                 .As<IEntityRepository<Package>>()
                 .InstancePerLifetimeScope();
