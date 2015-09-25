@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NuGetGallery.MyGet
+namespace NuGetGallery.RemoteFeed
 {
 	public class InMemoryRepository<T> : IEntityRepository<T> where T : class, IEntity, new()
 	{

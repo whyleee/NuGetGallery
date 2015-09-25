@@ -1033,11 +1033,12 @@
     </Compile>
     <Compile Include="Migrations\MigrationsConfiguration.cs" />
     <Compile Include="Migrations\SqlResourceMigration.cs" />
-    <Compile Include="MyGet\FixedDataServicePackage.cs" />
-    <Compile Include="MyGet\FixedDataServicePackageRepository.cs" />
-    <Compile Include="MyGet\InMemoryRepository.cs" />
-    <Compile Include="MyGet\MyGetPackageRepository.cs" />
-    <Compile Include="MyGet\PackageRepositoryAggregateStatsService.cs" />
+    <Compile Include="RemoteFeed\ExtendedDataServicePackage.cs" />
+    <Compile Include="RemoteFeed\ExtendedDataServicePackageRepository.cs" />
+    <Compile Include="RemoteFeed\InMemoryRepository.cs" />
+    <Compile Include="RemoteFeed\NugetPackageNupkg.cs" />
+    <Compile Include="RemoteFeed\RemoteFeedPackageRepository.cs" />
+    <Compile Include="RemoteFeed\PackageRepositoryAggregateStatsService.cs" />
     <Compile Include="PackageCurators\IAutomaticPackageCurator.cs" />
     <Compile Include="PackageCurators\AutomaticPackageCurator.cs" />
     <Compile Include="PackageCurators\TagBasedPackageCurator.cs" />

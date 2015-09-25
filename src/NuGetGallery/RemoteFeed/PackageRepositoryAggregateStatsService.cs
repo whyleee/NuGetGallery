@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NuGetGallery.MyGet
+namespace NuGetGallery.RemoteFeed
 {
 	public class PackageRepositoryAggregateStatsService : IAggregateStatsService
 	{

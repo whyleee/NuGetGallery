@@ -17,7 +17,7 @@ using NuGetGallery.Configuration;
 using NuGetGallery.Diagnostics;
 using NuGetGallery.Infrastructure;
 using NuGetGallery.Infrastructure.Lucene;
-using NuGetGallery.MyGet;
+using NuGetGallery.RemoteFeed;
 
 namespace NuGetGallery
 {
@@ -88,7 +88,7 @@ namespace NuGetGallery
                 .As<IEntityRepository<PackageRegistration>>()
                 .SingleInstance();
 
-            builder.RegisterType<MyGetPackageRepository>()
+            builder.RegisterType<RemoteFeedPackageRepository>()
                 .AsSelf()
                 .As<IEntityRepository<Package>>()
                 .InstancePerLifetimeScope();
