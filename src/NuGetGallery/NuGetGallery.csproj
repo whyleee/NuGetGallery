@@ -1036,6 +1036,7 @@
     <Compile Include="MyGet\FixedDataServicePackage.cs" />
     <Compile Include="MyGet\FixedDataServicePackageRepository.cs" />
     <Compile Include="MyGet\MyGetPackageRepository.cs" />
+    <Compile Include="MyGet\PackageRepositoryAggregateStatsService.cs" />
     <Compile Include="PackageCurators\IAutomaticPackageCurator.cs" />
     <Compile Include="PackageCurators\AutomaticPackageCurator.cs" />
     <Compile Include="PackageCurators\TagBasedPackageCurator.cs" />

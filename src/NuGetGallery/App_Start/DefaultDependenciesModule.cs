@@ -329,8 +329,8 @@ namespace NuGetGallery
                 .As<AuditingService>()
                 .SingleInstance();
 
-            // If we're not using azure storage, then aggregate stats comes from SQL
-            builder.RegisterType<SqlAggregateStatsService>()
+            // If we're not using azure storage, then aggregate stats comes from package repository
+            builder.RegisterType<PackageRepositoryAggregateStatsService>()
                 .AsSelf()
                 .As<IAggregateStatsService>()
                 .InstancePerLifetimeScope();
