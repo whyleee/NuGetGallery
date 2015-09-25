@@ -83,10 +83,10 @@ namespace NuGetGallery
                 .As<IEntityRepository<CuratedPackage>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<PackageRegistration>>()
+            builder.RegisterType<InMemoryRepository<PackageRegistration>>()
                 .AsSelf()
                 .As<IEntityRepository<PackageRegistration>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<MyGetPackageRepository>()
                 .AsSelf()

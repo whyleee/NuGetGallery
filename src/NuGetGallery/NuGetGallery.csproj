@@ -1035,6 +1035,7 @@
     <Compile Include="Migrations\SqlResourceMigration.cs" />
     <Compile Include="MyGet\FixedDataServicePackage.cs" />
     <Compile Include="MyGet\FixedDataServicePackageRepository.cs" />
+    <Compile Include="MyGet\InMemoryRepository.cs" />
     <Compile Include="MyGet\MyGetPackageRepository.cs" />
     <Compile Include="MyGet\PackageRepositoryAggregateStatsService.cs" />
     <Compile Include="PackageCurators\IAutomaticPackageCurator.cs" />
