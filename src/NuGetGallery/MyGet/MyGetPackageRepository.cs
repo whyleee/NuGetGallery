@@ -128,7 +128,6 @@ namespace NuGetGallery.MyGet
 				Summary = nugetPackage.Metadata.Summary,
 				Tags = PackageHelper.ParseTags(nugetPackage.Metadata.Tags),
 				Title = nugetPackage.Metadata.Title,
-				User = new User("whyleee"),
 
 				DownloadCount = ((FixedDataServicePackage) nugetPackage.Metadata).VersionDownloadCount
 			};
