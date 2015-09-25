@@ -42,11 +42,17 @@ namespace NuGetGallery.MyGet
 			}
 
 			var feedUrl = ConfigurationManager.AppSettings["MyGetFeedUrl"];
-			var repo = PackageRepositoryFactory.Default.CreateRepository(feedUrl);
+			var repo = CreateRemotePackageRepository(feedUrl);
 			var nugetPackages = repo.GetPackages().ToList();
 			_packages = nugetPackages.Select(ConvertToPackage).ToList();
 
 			return _packages.AsQueryable();
+		}
+
+		private IPackageRepository CreateRemotePackageRepository(string feedUrl)
+		{
+			var httpClient = PackageRepositoryFactory.Default.HttpClientFactory(new Uri(feedUrl));
+			return new FixedDataServicePackageRepository(httpClient);
 		}
 
 		private Package ConvertToPackage(IPackage nugetPackage)
@@ -124,7 +130,7 @@ namespace NuGetGallery.MyGet
 				Title = nugetPackage.Metadata.Title,
 				User = new User("whyleee"),
 
-				DownloadCount = ((IPackage) nugetPackage.Metadata).DownloadCount
+				DownloadCount = ((FixedDataServicePackage) nugetPackage.Metadata).VersionDownloadCount
 			};
 
 			package.IconUrl = nugetPackage.Metadata.IconUrl.ToEncodedUrlStringOrNull();
