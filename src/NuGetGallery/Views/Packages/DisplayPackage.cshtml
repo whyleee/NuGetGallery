@@ -29,6 +29,7 @@
 }
 @section BottomScripts {
     @* Facebook SDK *@
+    @*
     <div id="fb-root"></div>
     <script>
         (function (d, s, id) {
@@ -42,9 +43,11 @@
                                 }
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
-
+    *@
     @* Twitter SDK *@
+    @*
     <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+    *@
 }
 @section SideColumn {
     <img class="logo" src="@(Model.IconUrl ?? Url.Absolute("~/Content/Images/packageDefaultIcon.png"))" alt="Icon for package @Model.Id" onerror="this.src = '@Url.Absolute("~/Content/Images/packageDefaultIcon.png")';" />
@@ -76,6 +79,7 @@
             {
                 <li><a href="@Model.LicenseUrl" title="Make sure you agree with the license">License</a></li>
             }
+            @*
             <li><a href="@Url.Action(actionName: "ContactOwners", controllerName: "Packages", routeValues: new { id = Model.Id })" title="Ask the package owners a question">Contact Owners</a></li>
             @if (Model.IsOwner(User))
             {
@@ -93,8 +97,8 @@
                     </a>
                 </li>
             }
-
-            <li><a href="@Url.PackageDownload(2, Model.Id, Model.Version)" title="Download the raw nupkg file." rel="nofollow">Download</a> <a href="@Url.Action(actionName: "Download", controllerName: "Packages")" title="How do I download?">(how-to)</a></li>
+            *@
+            <li><a href="@Url.PackageDownload(2, Model.Id, Model.Version)" title="Download the raw nupkg file." rel="nofollow">Download</a> @*<a href="@Url.Action(actionName: "Download", controllerName: "Packages")" title="How do I download?">(how-to)</a>*@</li>
             <li><a class="s-clickonce" href="@Url.ExplorerDeepLink(2, Model.Id, Model.Version)" title="Explore the nupkg with the NuGet Package Explorer (IE only)" rel="nofollow">Open in Package Explorer</a></li>
 
             @if (Model.IsOwner(User))
@@ -256,12 +260,14 @@
     {
         <p>Requires NuGet @Model.MinClientVersion or higher.</p>
     }
+    @*
     <div id="socialbuttons" style="height: 60px; display: block;">
         <div>
             <a href="https://twitter.com/share" class="twitter-share-button" data-url="@absolutePackageUrl" data-text="Check out @Model.Id on #NuGet!">Tweet</a>
         </div>
         <div class="fb-like" data-href="@absolutePackageUrl" data-send="false" data-width="450" data-show-faces="true"></div>
     </div>
+    *@
 
     @if (!String.IsNullOrWhiteSpace(Model.ReleaseNotes))
     {

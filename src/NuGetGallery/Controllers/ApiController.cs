@@ -406,6 +406,7 @@ namespace NuGetGallery
                 var readOnly = await ContentService.GetContentItemAsync(Constants.ContentNames.ReadOnly, markdownContentFileExtension, TimeSpan.Zero);
                 alertString = (readOnly == null) ? null : readOnly.ToString();
             }
+            alertString = "";
             return Content(alertString, "text/html");
         }
 
