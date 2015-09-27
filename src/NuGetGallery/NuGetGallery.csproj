@@ -1037,6 +1037,8 @@
     <Compile Include="RemoteFeed\ExtendedDataServicePackageRepository.cs" />
     <Compile Include="RemoteFeed\InMemoryRepository.cs" />
     <Compile Include="RemoteFeed\NugetPackageNupkg.cs" />
+    <Compile Include="RemoteFeed\NullDbSet.cs" />
+    <Compile Include="RemoteFeed\NullEntitiesContext.cs" />
     <Compile Include="RemoteFeed\RemoteFeedPackageRepository.cs" />
     <Compile Include="RemoteFeed\PackageRepositoryAggregateStatsService.cs" />
     <Compile Include="PackageCurators\IAutomaticPackageCurator.cs" />

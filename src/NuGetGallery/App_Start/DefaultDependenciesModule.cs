@@ -40,6 +40,7 @@ namespace NuGetGallery
 
             ConfigureSearch(builder, configuration);
 
+            /*
             if (!string.IsNullOrEmpty(configuration.Current.AzureStorageConnectionString))
             {
                 builder.RegisterInstance(new TableErrorLog(configuration.Current.AzureStorageConnectionString))
@@ -52,6 +53,10 @@ namespace NuGetGallery
                     .As<ErrorLog>()
                     .SingleInstance();
             }
+            */
+            builder.RegisterInstance(new MemoryErrorLog())
+                .As<ErrorLog>()
+                .SingleInstance();
 
             builder.RegisterType<HttpContextCacheService>()
                 .AsSelf()
@@ -63,22 +68,23 @@ namespace NuGetGallery
                 .As<IContentService>()
                 .SingleInstance();
 
-            builder.Register(c => new EntitiesContext(configuration.Current.SqlConnectionString, readOnly: configuration.Current.ReadOnlyMode))
+            //builder.Register(c => new EntitiesContext(configuration.Current.SqlConnectionString, readOnly: configuration.Current.ReadOnlyMode))
+            builder.RegisterType<NullEntitiesContext>()
                 .AsSelf()
                 .As<IEntitiesContext>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<User>>()
+            builder.RegisterType<InMemoryRepository<User>>()
                 .AsSelf()
                 .As<IEntityRepository<User>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<CuratedFeed>>()
+            builder.RegisterType<InMemoryRepository<CuratedFeed>>()
                 .AsSelf()
                 .As<IEntityRepository<CuratedFeed>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<CuratedPackage>>()
+            builder.RegisterType<InMemoryRepository<CuratedPackage>>()
                 .AsSelf()
                 .As<IEntityRepository<CuratedPackage>>()
                 .InstancePerLifetimeScope();
@@ -93,22 +99,22 @@ namespace NuGetGallery
                 .As<IEntityRepository<Package>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<PackageDependency>>()
+            builder.RegisterType<InMemoryRepository<PackageDependency>>()
                 .AsSelf()
                 .As<IEntityRepository<PackageDependency>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<PackageStatistics>>()
+            builder.RegisterType<InMemoryRepository<PackageStatistics>>()
                 .AsSelf()
                 .As<IEntityRepository<PackageStatistics>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<Credential>>()
+            builder.RegisterType<InMemoryRepository<Credential>>()
                 .AsSelf()
                 .As<IEntityRepository<Credential>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityRepository<PackageOwnerRequest>>()
+            builder.RegisterType<InMemoryRepository<PackageOwnerRequest>>()
                 .AsSelf()
                 .As<IEntityRepository<PackageOwnerRequest>>()
                 .InstancePerLifetimeScope();

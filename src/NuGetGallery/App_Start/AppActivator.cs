@@ -187,10 +187,12 @@ namespace NuGetGallery
             }
             if (!configuration.HasWorker)
             {
+                /*
                 jobs.Add(
                     new UpdateStatisticsJob(TimeSpan.FromMinutes(5),
                         () => new EntitiesContext(configuration.SqlConnectionString, readOnly: false),
                         timeout: TimeSpan.FromMinutes(5)));
+                */
             }
             if (configuration.CollectPerfLogs)
             {
