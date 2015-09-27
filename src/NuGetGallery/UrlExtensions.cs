@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -102,6 +103,14 @@ namespace NuGetGallery
 
         public static string Package(this UrlHelper url, string id, string version, string scheme = null)
         {
+            var packageRepo = DependencyResolver.Current.GetService<IEntityRepository<Package>>();
+            var hostedPackage = packageRepo.GetAll().FirstOrDefault(p => p.PackageRegistration.Id == id);
+
+            if (hostedPackage == null)
+            {
+                return "https://www.nuget.org/packages/" + id + "/";
+            }
+            
             string result = url.RouteUrl(RouteName.DisplayPackage, new { id, version }, protocol: scheme);
 
             // Ensure trailing slashes for versionless package URLs, as a fix for package filenames that look like known file extensions
