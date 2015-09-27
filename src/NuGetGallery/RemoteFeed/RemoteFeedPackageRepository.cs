@@ -9,8 +9,8 @@ namespace NuGetGallery.RemoteFeed
 {
 	public class RemoteFeedPackageRepository : IEntityRepository<Package>
 	{
-		private static IList<Package> _packages;
-		private static User _packageOwner;
+		private IList<Package> _packages;
+		private User _packageOwner;
 		private readonly IComponentContext _componentContext;
 
 		public RemoteFeedPackageRepository(IComponentContext componentContext)

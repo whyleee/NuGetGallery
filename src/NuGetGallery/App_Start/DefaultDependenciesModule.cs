@@ -72,22 +72,22 @@ namespace NuGetGallery
             builder.RegisterType<NullEntitiesContext>()
                 .AsSelf()
                 .As<IEntitiesContext>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<InMemoryRepository<User>>()
                 .AsSelf()
                 .As<IEntityRepository<User>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<InMemoryRepository<CuratedFeed>>()
                 .AsSelf()
                 .As<IEntityRepository<CuratedFeed>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<InMemoryRepository<CuratedPackage>>()
                 .AsSelf()
                 .As<IEntityRepository<CuratedPackage>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<InMemoryRepository<PackageRegistration>>()
                 .AsSelf()
@@ -97,27 +97,27 @@ namespace NuGetGallery
             builder.RegisterType<RemoteFeedPackageRepository>()
                 .AsSelf()
                 .As<IEntityRepository<Package>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<InMemoryRepository<PackageDependency>>()
                 .AsSelf()
                 .As<IEntityRepository<PackageDependency>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<InMemoryRepository<PackageStatistics>>()
                 .AsSelf()
                 .As<IEntityRepository<PackageStatistics>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<InMemoryRepository<Credential>>()
                 .AsSelf()
                 .As<IEntityRepository<Credential>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<InMemoryRepository<PackageOwnerRequest>>()
                 .AsSelf()
                 .As<IEntityRepository<PackageOwnerRequest>>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterType<CuratedFeedService>()
                 .AsSelf()
