@@ -10,6 +10,7 @@ namespace NuGetGallery.RemoteFeed
 	public class RemoteFeedPackageRepository : IEntityRepository<Package>
 	{
 		private static IList<Package> _packages;
+		private static User _packageOwner;
 		private readonly IComponentContext _componentContext;
 
 		public RemoteFeedPackageRepository(IComponentContext componentContext)
@@ -25,13 +26,9 @@ namespace NuGetGallery.RemoteFeed
 			}
 
 			var feedUrl = ConfigurationManager.AppSettings["RemoteFeedUrl"];
+			_packageOwner = new User { Username = ConfigurationManager.AppSettings["RemoteFeedPackageOwner"] };
 			var repo = CreateRemotePackageRepository(feedUrl);
 			_packages = repo.GetPackages().Select(ConvertToPackage).ToList();
-
-			foreach (var package in _packages)
-			{
-				package.PackageRegistration.Owners.Remove(null);
-			}
 
 			return _packages.AsQueryable();
 		}
@@ -46,15 +43,12 @@ namespace NuGetGallery.RemoteFeed
 		{
 			var packageService = _componentContext.Resolve<IPackageService>();
 			var nupkg = new NugetPackageNupkg(nugetPackage);
-			var package = packageService.CreatePackage(nupkg, null, commitChanges: false);
+			
+			var package = packageService.CreatePackage(nupkg, _packageOwner, commitChanges: false);
 
 			package.DownloadCount = ((ExtendedDataServicePackage) nugetPackage).VersionDownloadCount;
 			package.PackageRegistration.DownloadCount = nugetPackage.DownloadCount;
-			package.PackageRegistration.Owners.AddRange(nugetPackage.Owners
-				.Select(username => new User
-				{
-					Username = username
-				}));
+			package.PackageRegistration.Owners.Add(_packageOwner);
 
 			return package;
 		}
