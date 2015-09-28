@@ -9,7 +9,7 @@ namespace NuGetGallery.RemoteFeed
 {
 	public class RemoteFeedPackageRepository : IEntityRepository<Package>
 	{
-		private IList<Package> _packages;
+		private IList<Package> _packages = new List<Package>();
 		private User _packageOwner;
 		private readonly IComponentContext _componentContext;
 
@@ -20,7 +20,7 @@ namespace NuGetGallery.RemoteFeed
 
 		public IQueryable<Package> GetAll()
 		{
-			if (_packages != null)
+			if (_packages.Any())
 			{
 				return _packages.AsQueryable();
 			}
@@ -55,17 +55,17 @@ namespace NuGetGallery.RemoteFeed
 
 		public void CommitChanges()
 		{
-			throw new NotSupportedException();
 		}
 
 		public void DeleteOnCommit(Package entity)
 		{
-			throw new NotSupportedException();
+			_packages.Remove(entity);
 		}
 
 		public int InsertOnCommit(Package entity)
 		{
-			throw new NotSupportedException();
+			_packages.Add(entity);
+			return 1;
 		}
 
 		public Package GetEntity(int key)

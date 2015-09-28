@@ -26,6 +26,15 @@ namespace NuGetGallery
                 new { controller = "Pages", action = "EmptyHome" });
             }
             Routes.RegisterApiV2Routes(routes);
+            Routes.RegisterRemoteFeedRoutes(routes);
+        }
+
+        private static void RegisterRemoteFeedRoutes(RouteCollection routes)
+        {
+            routes.MapRoute(
+                "WebHooks",
+                "api/webhooks/{action}",
+                new { controller = "WebHooks" });
         }
 
         public static void RegisterUIRoutes(RouteCollection routes)
